@@ -1,12 +1,30 @@
 require 'rack'
+require_relative 'cheese'
+require_relative 'future'
+require_relative 'cupcake'
 
 app = Proc.new do |env|
   # Finds the num of paragraphs requested, or sets it to 1
   num = env["REQUEST_PATH"].sub(/\/\w+[|\/]/, "")
   num = 1 if num.to_i.zero?
 
-  # Replace the code below with your code (and remove this comment)
-  ['200', {'Content-Type' => 'text/html'}, [env.inspect]]
+  path = env["PATH_INFO"]
+  headers = {'Content-Type' => 'text/html'}
+
+  if path.start_with?("/lipsums")
+    ['200', headers, ["pick one of the following: cheese, future, or cupcake"]]
+  elsif path.start_with?("/cheese")
+    ['200', headers, Cheese.call(num)]
+  elsif path.start_with?("/future")
+    ['200', headers, Future.call(num)]
+  elsif path.start_with?("/cupcake")
+    ['200', headers, Cupcake.call(num)]
+  else
+    ['404', headers, ["These are not the droids you were looking for"]]
+  end
+
+
+  # ['200', {'Content-Type' => 'text/html'}, [env.inspect]]
 
 end
 

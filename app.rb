@@ -34,7 +34,7 @@ class App
   end
 
   def time
-    ['200', headers, ["#{Time.now}"]]
+    ['200', headers, ["#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"]]
   end
 
   def lipsums

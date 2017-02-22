@@ -8,21 +8,23 @@ class App
 
   def initialize(env)
     @env = env
-    @path = env["PATH_INFO"]
-    @num = env["REQUEST_PATH"].sub(/\/\w+[|\/]/, "").to_i
-    @num = 1 if @num.zero?
+    @path = env["PATH_INFO"].split('/')
+    # @num = env["REQUEST_PATH"].sub(/\/\w+[|\/]/, "").to_i
+    # @num = 1 if @num.zero?
+    # .sub breaking when testing
+    @num = path[2] ? path[2].to_i : 1
   end
 
   def response
-    if path.start_with?("/lipsums")
+    if path[1].start_with?("lipsums")
       lipsums
-    elsif path.start_with?("/cheese")
+    elsif path[1].start_with?("cheese")
       output(Cheese)
-    elsif path.start_with?("/future")
+    elsif path[1].start_with?("future")
       output(Future)
-    elsif path.start_with?("/cupcake")
+    elsif path[1].start_with?("cupcake")
       output(Cupcake)
-    elsif path.start_with?("/current_time")
+    elsif path[1].start_with?("current_time")
       time
     else
       f_o_f
@@ -42,7 +44,7 @@ class App
   end
 
   def f_o_f
-    ['404', headers, ["These are not the droids you were looking for"]]
+    ['404', headers, ["We're sorry. We couldn't do that."]]
   end
 
   def headers

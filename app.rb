@@ -13,7 +13,7 @@ class App
     @path = env["PATH_INFO"]
     @num = env["PATH_INFO"].sub(/\/\w+[|\/]/, "").to_i
     @num = 1 if @num.zero?
-    @timezone = env["PATH_INFO"].sub(/\w+[|\/]+\w+[|\/]/, "").to_s
+    #need a way to take second argument as a string if it's related to timezone
   end
 
   # How do I get it to fail if I have a PATH such as "/cheese/sdfouahfuoa"
@@ -26,8 +26,8 @@ class App
       output(Future)
     elsif path.start_with?("/cupcake")
       output(Cupcake)
-    elsif path.start_with?("/current_time") && path.end_with?("/#{@timezone}")
-      time_and_zone
+    # elsif path.start_with?("/current_time") && path.end_with?(@timezone)
+    #   time_and_zone
     elsif path.start_with?("/current_time")
       time
     else

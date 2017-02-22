@@ -8,23 +8,24 @@ class App
 
   def initialize(env)
     @env = env
-    @path = env["PATH_INFO"].split('/')
-    # @num = env["REQUEST_PATH"].sub(/\/\w+[|\/]/, "").to_i
-    # @num = 1 if @num.zero?
+    @path = env["PATH_INFO"]
+    @num = env["PATH_INFO"].sub(/\/\w+[|\/]/, "").to_i
+    @num = 1 if @num.zero?
     # .sub breaking when testing
-    @num = path[2] ? path[2].to_i : 1
+    # fixed
   end
 
+  # How do I get it to fail if I have a PATH such as "/cheese/sdfouahfuoa"
   def response
-    if path[1].start_with?("lipsums")
+    if path.start_with?("/lipsums")
       lipsums
-    elsif path[1].start_with?("cheese")
+    elsif path.start_with?("/cheese")
       output(Cheese)
-    elsif path[1].start_with?("future")
+    elsif path.start_with?("/future")
       output(Future)
-    elsif path[1].start_with?("cupcake")
+    elsif path.start_with?("/cupcake")
       output(Cupcake)
-    elsif path[1].start_with?("current_time")
+    elsif path.start_with?("/current_time")
       time
     else
       f_o_f

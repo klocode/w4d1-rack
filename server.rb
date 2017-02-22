@@ -1,4 +1,5 @@
 require 'rack'
+require 'thin'
 require_relative 'app'
 
 app = App
@@ -25,4 +26,4 @@ app = App
 #
 # end
 
-Rack::Handler::WEBrick.run app
+Rack::Handler::Thin.run app
